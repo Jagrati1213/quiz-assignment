@@ -7,3 +7,14 @@ export async function GET() {
       status: 200,
     });
 }
+
+export async function POST(request) {
+  const data = await request.json();
+  return Response.json({
+    message: "Answer submitted successfully!",
+    data
+  }, {
+    status: 200
+  }
+  )
+}
