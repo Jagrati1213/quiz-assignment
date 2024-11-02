@@ -20,7 +20,9 @@ module.exports = {
       backgroundImage: {
         upraisedLinear: "linear-gradient(180deg, rgba(175, 156, 243, 0) 7.92%, #AF9CF3 86.48%)",
         upraisedLinearOrange: "linear-gradient(180deg, rgba(175, 156, 243, 0) 7.92%, #FF3B3C 86.48%)",
-        upraisedGameImage: "url('/backImage.svg')"
+        upraisedGameImage: "url('/backImage.svg')",
+        upraisedScoreContainerLinear: 'linear-gradient(to bottom, #EBEDF5 70%, white 50%)',
+        upraisedScoreLinear: 'linear-gradient(to bottom, #FF3B3F 0%, #FFA500 13%, #FFD033 16%, #44B77B 50%, white 50%)',
       },
     },
   },
