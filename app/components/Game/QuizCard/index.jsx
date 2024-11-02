@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 
 export function QuizCard({ quizData }) {
-  const { question, options, type } = quizData;
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   // Handle option selection
@@ -23,13 +22,12 @@ export function QuizCard({ quizData }) {
   return (
     <div className="flex flex-col gap-8 max-h-[500px] overflow-y-scroll py-4">
       <h3 className="text-xl text-upraisedBlack font-semibold font-sans">
-        {question}
+        {quizData?.question}
       </h3>
 
       <div className="flex flex-col gap-4">
-        {options.map((option, index) => {
+        {quizData?.options.map((option, index) => {
           const isSelected = selectedOptions.includes(option);
-          console.log(isSelected, selectedOptions);
           return (
             <label
               htmlFor={`${option}`}
@@ -39,13 +37,13 @@ export function QuizCard({ quizData }) {
               key={index}
             >
               <input
-                type={type === "multiple" ? "checkbox" : "radio"}
+                type={quizData?.type === "multiple" ? "checkbox" : "radio"}
                 checked={isSelected}
                 onChange={() => handleChange(option)}
                 readOnly
                 id={`${option}`}
                 className="upraised_option"
-                name={type === "multiple" ? undefined : "quizOption"}
+                name={quizData?.type === "multiple" ? undefined : "quizOption"}
               />
               {option}
             </label>
