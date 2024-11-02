@@ -1,13 +1,9 @@
-"use client";
+import React from "react";
 
-import React, { useState } from "react";
-
-export function QuizCard({ quizData }) {
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
+export function QuizCard({ quizData, selectedOptions, setSelectedOptions }) {
   // Handle option selection
   const handleChange = (option) => {
-    if (type === "multiple") {
+    if (quizData.type === "multiple") {
       // For multiple choice, toggle the selection
       setSelectedOptions((prev) =>
         prev.includes(option)
