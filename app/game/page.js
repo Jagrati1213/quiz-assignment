@@ -24,7 +24,7 @@ export default function Game() {
       </div>
 
       {/* next button */}
-      <div className="w-full bg-white">
+      <div className="w-full bg-white pb-7">
         <button className="upraised_button relative text-center">
           Next
           <span className="absolute right-10">&#8594;</span>
