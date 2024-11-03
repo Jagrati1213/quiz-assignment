@@ -23,7 +23,7 @@ export function QuizCard({
   };
 
   return (
-    <div className="flex flex-col gap-8 max-h-[500px] overflow-y-scroll py-4">
+    <div className="flex flex-col gap-8 max-h-[500px] overflow-y-scroll py-4 text-black">
       <h3 className="text-xl text-black font-semibold font-sans">
         {quizData?.question}
       </h3>
@@ -47,6 +47,7 @@ export function QuizCard({
                 isSelected ? "border-upraisedGreen" : "border-gray-400"
               } px-6 py-8 rounded-[20px] border-2 transition flex gap-2 cursor-pointer text-black`}
               key={index}
+              style={{ color: "black" }}
             >
               <input
                 type={quizData?.type === "multiple" ? "checkbox" : "radio"}
