@@ -20,18 +20,48 @@ export default function Game() {
     inCorrectScore: 0
   })
 
+  // Function calculate the scoring
+  const handleCalculateScore = () => {
+    let correctCount = 0;
+    let incorrectCount = 0;
+
+    userQuizResponse.forEach(({ correct_answer, selectedAnswers }) => {
+      // Ensure correct_answer is treated as an array
+      const correctAnswersArray = Array.isArray(correct_answer)
+        ? correct_answer
+        : [correct_answer];
+
+      // Check all selected options includes inside correct answer
+      const isCorrect = correctAnswersArray.every(answer => selectedAnswers.includes(answer)) &&
+        selectedAnswers.length === correctAnswersArray.length;
+
+      //Update the score 
+      if (isCorrect) {
+        correctCount++;
+      } else {
+        incorrectCount++;
+      }
+    });
+
+    // Set the score in state
+    setScore({
+      correctScore: correctCount,
+      inCorrectScore: incorrectCount
+    });
+  };
+
   // Function fetch all the quiz questions
   const handleGetAllQuestions = async () => {
     setLoading(true);
     try {
       const response = await axios.get('/api/quiz');
-      if (response.status === 200) {
-        const data = await response.data;
-        setQuestions(data);
-      }
-      else {
+      if (response.status !== 200) {
         console.error('Unexpected response status:', response.statusText);
-      }
+        return;
+      };
+
+      const data = await response.data;
+      setQuestions(data);
     } catch (error) {
       console.error('Internal server error', error.response?.statusText || error.message);
     } finally {
@@ -39,51 +69,55 @@ export default function Game() {
     }
   };
 
+  // Function to send the response to the API before the next question
+  const handleSendResponse = async () => {
+    try {
+      const payload = {
+        selectedAnswers: selectedOptions,
+        question: questions[currentQuestionIndex].question,
+        correct_answer: questions[currentQuestionIndex].correct_answer,
+        time: "15s"
+      };
+
+      const response = await axios.post('/api/quiz', payload);
+      return response;
+    } catch (error) {
+      console.error('Error while sending response to API:', error.response?.statusText || error.message);
+    }
+  };
+
   // Function next question
   const handleNext = async () => {
     try {
-      // Case-1: If user choose any option.
-      if (selectedOptions.length) {
+      // Ensure user has chosen an option
+      if (!selectedOptions.length) return;
 
-        // Case-2: send selected answer to api.
-        const response = await axios.post('/api/quiz',
-          {
-            selectedAnswers: selectedOptions,
-            question: questions[currentQuestionIndex].question,
-            correct_answer: questions[currentQuestionIndex].correct_answer,
-            time: "15s"
-          })
-        if (response.status === 200) {
-          setIsShowToaster(true);
+      // Send selected answer to backend(dummy).
+      const response = await handleSendResponse();
+      if (response.status !== 200) {
+        console.error("Error in submitting user answer", response?.statusText);
+        return;
+      }
+      // Show toaster message
+      setIsShowToaster(true);
 
-          // Case-3: Set the data in "userQuizResponse"
-          setUserQuizResponse((prevResponses) => [
-            ...prevResponses,
-            {
-              ...response.data.data
-            }
-          ]);
+      // Append response data to "userQuizResponse" state
+      setUserQuizResponse((prevResponses) => [...prevResponses, { ...response.data.data }]);
 
-          // Case-4: Show the next question
-          if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex((currentQuestionIndex) => currentQuestionIndex + 1);
-            setSelectedOptions([]);
-          } else {
-
-            // Case-5: Update the score 
-            setIsQuizCompleted(true);
-          }
-        } else {
-          console.log("Error in submitting user answer", response?.statusText);
-        }
+      // Proceed to the next question or complete the quiz
+      if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        setSelectedOptions([]);
+      }
+      else {
+        setIsQuizCompleted(true);
       }
     } catch (error) {
       console.error('Internal server error', error.response?.statusText || error.message);
     }
     finally {
-      setTimeout(() => {
-        setIsShowToaster(false);
-      }, 3000);
+      // Hide the toaster after a short delay
+      setTimeout(() => setIsShowToaster(false), 2000);
     }
   }
 
@@ -91,8 +125,17 @@ export default function Game() {
   const handleRestart = () => {
     setCurrentQuestionIndex(0);
     setIsQuizCompleted(false);
+    setUserQuizResponse([]);
   }
 
+  // Handle scoring 
+  useEffect(() => {
+    if (isQuizCompleted) {
+      handleCalculateScore();
+    }
+  }, [userQuizResponse, isQuizCompleted]);
+
+  // Fetched all questions on initial load
   useEffect(() => {
     handleGetAllQuestions();
   }, []);
@@ -100,7 +143,7 @@ export default function Game() {
 
   return (
     <section className="upraised_game_container flex flex-col bg-white relative">
-
+      {/* Show toaster message */}
       <Toast message={'Answer submitted successfully!'} show={isShowToaster} />
 
       {/* Header image */}
@@ -109,16 +152,23 @@ export default function Game() {
       {/* quiz questions container */}
       <div className="bg-white rounded-tl-[60px] rounded-tr-[60px] flex-1 pt-10 px-3">
         {isQuizCompleted
-          ? <ScoreBlock correctCount={score.correctScore} inCorrectCount={score.inCorrectScore} />
-          :
-          loading
+          ? <ScoreBlock
+            correctCount={score.correctScore}
+            inCorrectCount={score.inCorrectScore} />
+          : loading
             ? <Skeleton />
             : <>
               {/* timer*/}
-              <TimerComponent currentCount={currentQuestionIndex + 1} totalCount={questions?.length} />
+              <TimerComponent
+                currentCount={currentQuestionIndex + 1 || 0}
+                totalCount={questions?.length || 0} />
+
               {/* question with answer */}
               <div className="px-2">
-                <QuizCard quizData={questions[currentQuestionIndex]} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
+                <QuizCard
+                  quizData={questions[currentQuestionIndex]}
+                  selectedOptions={selectedOptions}
+                  setSelectedOptions={setSelectedOptions} />
               </div>
             </>
         }
@@ -127,9 +177,13 @@ export default function Game() {
       {/* next button */}
       <div className="w-full bg-white p-4">
         {isQuizCompleted
-          ? <button className="upraised_button relative text-center" onClick={handleRestart}>Start Again</button>
-          : <button className="upraised_button relative text-center disabled:bg-gray-200 disabled:text-gray-400"
-            onClick={handleNext} disabled={selectedOptions.length === 0}>
+          ? <button
+            className="upraised_button relative text-center"
+            onClick={handleRestart}>Start Again</button>
+          : <button
+            className="upraised_button relative text-center disabled:bg-gray-200 disabled:text-gray-400"
+            onClick={handleNext}
+            disabled={selectedOptions.length === 0}>
             Next<span className="absolute right-10">&#8594;</span>
           </button>
         }
