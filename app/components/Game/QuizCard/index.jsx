@@ -17,7 +17,7 @@ export function QuizCard({ quizData, selectedOptions, setSelectedOptions }) {
   };
 
   return (
-    <div className="flex flex-col gap-8 max-h-[500px] overflow-y-scroll py-4 text-black">
+    <div className="flex flex-col gap-8 py-4 text-black">
       <h3 className="text-xl text-black font-semibold font-sans">
         {quizData?.question}
       </h3>
@@ -31,7 +31,11 @@ export function QuizCard({ quizData, selectedOptions, setSelectedOptions }) {
           />
         </div>
       )}
-      <div className="flex flex-col gap-4">
+      <div
+        className={`flex flex-col gap-4 ${
+          quizData?.image ? "max-h-[350px]" : "max-h-[500px]"
+        } overflow-y-scroll`}
+      >
         {quizData?.options.map((option, index) => {
           const isSelected = selectedOptions.includes(option);
           return (
