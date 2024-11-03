@@ -32,7 +32,7 @@ export function Gauge({ percentage }) {
                 : "px-6 py-8"
             } rounded-full border-4 border-gray-200`}
           >
-            <span className="text-2xl font-bold">{gaugeValue}%</span>
+            <span className="text-2xl font-bold text-black">{gaugeValue}%</span>
           </div>
         </div>
       </div>
