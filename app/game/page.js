@@ -104,7 +104,7 @@ export default function Game() {
         return;
       }
       // Show toaster message
-      timeOut ? setToastMessage("Oops, Time is out!") : setToastMessage("Answer submitted successfully!");
+      timeOut && selectedOptions.length === 0 ? setToastMessage("Oops, Time is out!") : setToastMessage("Answer submitted successfully!");
 
       setIsShowToaster(true);
 
@@ -120,6 +120,7 @@ export default function Game() {
       }
       else {
         setIsQuizCompleted(true);
+        setTimerRunning(false);
       }
     } catch (error) {
       console.error('Internal server error', error.response?.statusText || error.message);
@@ -142,6 +143,7 @@ export default function Game() {
   // Handle time effect to count down
   useEffect(() => {
     if (timerRunning && remainingTime > 0) {
+      console.log("object");
       const timer = setInterval(() => {
         setRemainingTime((prev) => prev - 1);
       }, 1000);

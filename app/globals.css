@@ -4,11 +4,11 @@
 
 @layer utilities {
   .upraised_container {
-    @apply w-full lg:w-1/3 flex mx-auto bg-upraisedLinear min-h-screen py-10;
+    @apply w-full lg:w-1/3 flex mx-auto bg-upraisedLinear min-h-[99vh] py-10;
   }
 
   .upraised_game_container {
-    @apply w-full lg:w-1/3 flex mx-auto min-h-screen bg-upraisedLavender;
+    @apply w-full lg:w-1/3 flex mx-auto min-h-[99vh] bg-upraisedLavender;
   }
 
   .upraised_quiz_sign_container {
