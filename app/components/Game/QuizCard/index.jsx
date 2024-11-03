@@ -44,8 +44,8 @@ export function QuizCard({
             <label
               htmlFor={`${option}`}
               className={`${
-                isSelected ? "border-upraisedGreen" : "border-gray-400-"
-              } px-6 py-8 rounded-[20px] border-2 transition flex gap-2 cursor-pointer`}
+                isSelected ? "border-upraisedGreen" : "border-gray-400"
+              } px-6 py-8 rounded-[20px] border-2 transition flex gap-2 cursor-pointer text-black`}
               key={index}
             >
               <input
