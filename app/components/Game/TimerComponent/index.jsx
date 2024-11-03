@@ -22,7 +22,7 @@ export function TimerComponent({ remainingTime, currentCount, totalCount }) {
         }}
       >
         <div className="bg-white w-28 h-28 rounded-full flex justify-center items-center">
-          <h2 className="text-4xl font-bold italic">
+          <h2 className="text-4xl font-bold italic text-black">
             {currentCount}
             <span className="text-gray-400 text-xl">/{totalCount}</span>
           </h2>
