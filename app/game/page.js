@@ -138,6 +138,7 @@ export default function Game() {
     setUserQuizResponse([]);
     setRemainingTime(15);
     setTimerRunning(true);
+    setSelectedOptions([])
   }
 
   // Handle time effect to count down
@@ -190,7 +191,7 @@ export default function Game() {
                 totalCount={questions?.length || 0} />
 
               {/* question with answer */}
-              <div className="px-2">
+              <div className="pt-6">
                 <QuizCard
                   quizData={questions[currentQuestionIndex]}
                   selectedOptions={selectedOptions}
