@@ -94,9 +94,6 @@ export default function Game() {
   // Function next question
   const handleNext = async ({ timeOut = false }) => {
     try {
-      // Ensure user has chosen an option
-      if (!selectedOptions.length && !timeOut) return;
-
       // Send selected answer to backend(dummy).
       const response = await handleSendResponse();
       if (response.status !== 200) {
