@@ -24,11 +24,11 @@ To get started with the project, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Jagrati1213/upraised-assignment.git
+   git clone https://github.com/Jagrati1213/quiz-assignment.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd upraised-assignment
+   cd quiz-assignment
    ```
 3. Install dependencies:
    ```bash
