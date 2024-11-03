@@ -1,6 +1,11 @@
 import React from "react";
 
-export function QuizCard({ quizData, selectedOptions, setSelectedOptions }) {
+export function QuizCard({
+  quizData,
+  selectedOptions,
+  setSelectedOptions,
+  setTimerRunning,
+}) {
   // Handle option selection
   const handleChange = (option) => {
     if (quizData.type === "multiple") {
@@ -13,6 +18,7 @@ export function QuizCard({ quizData, selectedOptions, setSelectedOptions }) {
     } else {
       setSelectedOptions([option]);
     }
+    setTimerRunning(false);
   };
 
   return (
