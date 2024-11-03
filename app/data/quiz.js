@@ -8,7 +8,8 @@ const questions = [
       "Hyper Text Multi Language"
     ],
     type: "single",
-    correct_answer: "Hyper Text Markup Language"
+    correct_answer: "Hyper Text Markup Language",
+    image: "https://www.simform.com/wp-content/uploads/2021/11/Scalable-Frontend-Development-Services.png"
   },
   {
     question: "Which of the following is not a JavaScript data type?",
@@ -53,7 +54,7 @@ const questions = [
     ],
     type: "single",
     correct_answer: "<img src='image.jpg'>",
-    image: "https://example.com/image_syntax_example.png"
+    image: "https://www.simform.com/wp-content/uploads/2021/11/Scalable-Frontend-Development-Services.png"
   },
   {
     question: "Which of the following React JS frameworks is used for building user interfaces?",
