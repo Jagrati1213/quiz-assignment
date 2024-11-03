@@ -24,8 +24,12 @@ export function Gauge({ percentage }) {
       >
         <div className="bg-white w-28 h-28 rounded-full flex justify-center items-center">
           <div
-            className={`px-6 ${
-              percentage >= 100 ? "py-9" : "py-8"
+            className={`${
+              percentage >= 100
+                ? "px-6 py-9"
+                : percentage < 10
+                ? "px-8 py-8"
+                : "px-6 py-8"
             } rounded-full border-4 border-gray-200`}
           >
             <span className="text-2xl font-bold">{gaugeValue}%</span>
