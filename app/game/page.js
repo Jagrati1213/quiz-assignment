@@ -192,8 +192,8 @@ export default function Game() {
                 <QuizCard
                   quizData={questions[currentQuestionIndex]}
                   selectedOptions={selectedOptions}
-                  setSelectedOptions={setSelectedOptions}
-                  setTimerRunning={setTimerRunning} />
+                  setSelectedOptions={setSelectedOptions} />
+
               </div>
             </>
         }
