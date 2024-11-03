@@ -144,7 +144,6 @@ export default function Game() {
   // Handle time effect to count down
   useEffect(() => {
     if (timerRunning && remainingTime > 0) {
-      console.log("object");
       const timer = setInterval(() => {
         setRemainingTime((prev) => prev - 1);
       }, 1000);
