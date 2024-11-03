@@ -1,12 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-export function QuizCard({
-  quizData,
-  selectedOptions,
-  setSelectedOptions,
-  setTimerRunning,
-}) {
+export function QuizCard({ quizData, selectedOptions, setSelectedOptions }) {
   // Handle option selection
   const handleChange = (option) => {
     if (quizData.type === "multiple") {
@@ -19,7 +14,6 @@ export function QuizCard({
     } else {
       setSelectedOptions([option]);
     }
-    setTimerRunning(false);
   };
 
   return (
