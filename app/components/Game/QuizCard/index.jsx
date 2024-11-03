@@ -54,7 +54,6 @@ export function QuizCard({
                 onChange={() => handleChange(option)}
                 readOnly
                 id={`${option}`}
-                className="upraised_option"
                 name={quizData?.type === "multiple" ? undefined : "quizOption"}
               />
               {option}
