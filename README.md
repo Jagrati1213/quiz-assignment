@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Quiz App
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+This Quiz Web Application is designed to evaluate users' skills through a series of questions. The application includes a countdown timer for each question and provides immediate feedback on user responses. Users can answer multiple-choice questions, and their performance is scored at the end of the quiz.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- User-friendly interface for answering questions.
+- Countdown timer for each question (15 seconds).
+- Real-time score calculation.
+- Dynamic feedback through toast notifications.
+- Visual representation of time remaining and score using animated gauges.
+- Responsive design for compatibility across devices.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend**: Next JS, CSS (Tailwind CSS)
+- **Others**: Axios for API calls
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+To get started with the project, follow these steps:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Jagrati1213/upraised-assignment.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd upraised-assignment
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+1. Start the development server:
+   ```bash
+   npm run dev
+   ```
+2. Open your browser and go to `http://localhost:3000` (or the specified port) to access the application.
+3. Follow the on-screen instructions to complete the quiz.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Acknowledgments
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For creating this assignment, I took help from the Next.js documentation and ChatGPT for creating animations.
