@@ -8,13 +8,18 @@ import { Skeleton } from "../components/Skeleton";
 import { Toast } from "../components/Toast";
 
 export default function Game() {
+  const [initialTime] = useState(15);
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [isShowToaster, setIsShowToaster] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(15);
   const [userQuizResponse, setUserQuizResponse] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [toastMessage, setToastMessage] = useState("Answer submitted successfully");
+
   const [score, setScore] = useState({
     correctScore: 0,
     inCorrectScore: 0
@@ -76,7 +81,7 @@ export default function Game() {
         selectedAnswers: selectedOptions,
         question: questions[currentQuestionIndex].question,
         correct_answer: questions[currentQuestionIndex].correct_answer,
-        time: "15s"
+        time: `${initialTime - remainingTime}s`
       };
 
       const response = await axios.post('/api/quiz', payload);
@@ -87,10 +92,10 @@ export default function Game() {
   };
 
   // Function next question
-  const handleNext = async () => {
+  const handleNext = async ({ timeOut = false }) => {
     try {
       // Ensure user has chosen an option
-      if (!selectedOptions.length) return;
+      if (!selectedOptions.length && !timeOut) return;
 
       // Send selected answer to backend(dummy).
       const response = await handleSendResponse();
@@ -99,6 +104,8 @@ export default function Game() {
         return;
       }
       // Show toaster message
+      timeOut ? setToastMessage("Oops, Time is out!") : setToastMessage("Answer submitted successfully!");
+
       setIsShowToaster(true);
 
       // Append response data to "userQuizResponse" state
@@ -107,6 +114,8 @@ export default function Game() {
       // Proceed to the next question or complete the quiz
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        setRemainingTime(15);
+        setTimerRunning(true);
         setSelectedOptions([]);
       }
       else {
@@ -126,7 +135,22 @@ export default function Game() {
     setCurrentQuestionIndex(0);
     setIsQuizCompleted(false);
     setUserQuizResponse([]);
+    setRemainingTime(15);
+    setTimerRunning(true);
   }
+
+  // Handle time effect to count down
+  useEffect(() => {
+    if (timerRunning && remainingTime > 0) {
+      const timer = setInterval(() => {
+        setRemainingTime((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (remainingTime === 0) {
+      handleNext({ timeOut: true });
+    }
+  }, [timerRunning, remainingTime]);
 
   // Handle scoring 
   useEffect(() => {
@@ -140,11 +164,10 @@ export default function Game() {
     handleGetAllQuestions();
   }, []);
 
-
   return (
     <section className="upraised_game_container flex flex-col bg-white relative">
       {/* Show toaster message */}
-      <Toast message={'Answer submitted successfully!'} show={isShowToaster} />
+      <Toast message={toastMessage} show={isShowToaster} />
 
       {/* Header image */}
       <div className="bg-upraisedGameImage bg-no-repeat py-20"></div>
@@ -160,6 +183,7 @@ export default function Game() {
             : <>
               {/* timer*/}
               <TimerComponent
+                remainingTime={remainingTime}
                 currentCount={currentQuestionIndex + 1 || 0}
                 totalCount={questions?.length || 0} />
 
@@ -168,7 +192,8 @@ export default function Game() {
                 <QuizCard
                   quizData={questions[currentQuestionIndex]}
                   selectedOptions={selectedOptions}
-                  setSelectedOptions={setSelectedOptions} />
+                  setSelectedOptions={setSelectedOptions}
+                  setTimerRunning={setTimerRunning} />
               </div>
             </>
         }
