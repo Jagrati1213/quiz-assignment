@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 export function QuizCard({
@@ -26,7 +27,16 @@ export function QuizCard({
       <h3 className="text-xl text-upraisedBlack font-semibold font-sans">
         {quizData?.question}
       </h3>
-
+      {quizData?.image && (
+        <div className="w-full flex justify-center">
+          <Image
+            src={quizData.image}
+            alt="quiz image"
+            width={180}
+            height={180}
+          />
+        </div>
+      )}
       <div className="flex flex-col gap-4">
         {quizData?.options.map((option, index) => {
           const isSelected = selectedOptions.includes(option);
